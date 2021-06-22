@@ -2,9 +2,22 @@ import React from "react";
 import ReactDOM from "react-dom";
 import MagicDropzone from "react-magic-dropzone";
 
-import * as cocoSsd from "@tensorflow-models/coco-ssd";
-import "@tensorflow/tfjs";
 import "./styles.css";
+const tf = require('@tensorflow/tfjs');
+
+const weights = '/weights/web_model/model.json';
+
+const names = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat', 'traffic light',
+               'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow',
+               'elephant', 'bear', 'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee',
+               'skis', 'snowboard', 'sports ball', 'kite', 'baseball bat', 'baseball glove', 'skateboard', 'surfboard',
+               'tennis racket', 'bottle', 'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl', 'banana', 'apple',
+               'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'chair', 'couch',
+               'potted plant', 'bed', 'dining table', 'toilet', 'tv', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone',
+               'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear',
+               'hair drier', 'toothbrush']
+
+const [modelWeight, modelHeight] = [320, 320];
 
 class App extends React.Component {
   state = {
@@ -14,7 +27,7 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    cocoSsd.load().then(model => {
+    tf.loadGraphModel(weights).then(model => {
       this.setState({
         model: model
       });
@@ -29,70 +42,78 @@ class App extends React.Component {
     const naturalWidth = image.naturalWidth;
     const naturalHeight = image.naturalHeight;
 
-    canvas.width = image.width;
-    canvas.height = image.height;
+    // canvas.width = image.width;
+    // canvas.height = image.height;
 
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    if (naturalWidth > naturalHeight) {
-      ctx.drawImage(
-        image,
-        (naturalWidth - naturalHeight) / 2,
-        0,
-        naturalHeight,
-        naturalHeight,
-        0,
-        0,
-        ctx.canvas.width,
-        ctx.canvas.height
-      );
-    } else {
-      ctx.drawImage(
-        image,
-        0,
-        (naturalHeight - naturalWidth) / 2,
-        naturalWidth,
-        naturalWidth,
-        0,
-        0,
-        ctx.canvas.width,
-        ctx.canvas.height
-      );
-    }
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    const ratio = Math.min(canvas.width / image.naturalWidth, canvas.height / image.naturalHeight);
+    const newWidth = Math.round(naturalWidth * ratio);
+    const newHeight = Math.round(naturalHeight * ratio);
+    ctx.drawImage(
+      image,
+      0,
+      0,
+      naturalWidth,
+      naturalHeight,
+      (canvas.width - newWidth) / 2,
+      (canvas.height - newHeight) / 2,
+      newWidth,
+      newHeight,
+    );
+
   };
 
   onImageChange = e => {
     const c = document.getElementById("canvas");
     const ctx = c.getContext("2d");
     this.cropToCanvas(e.target, c, ctx);
-    this.state.model.detect(c).then(predictions => {
+    const input = tf.image.resizeBilinear(tf.browser.fromPixels(c), [modelWeight, modelHeight])
+      .div(255.0).expandDims(0);
+    this.state.model.executeAsync(input).then(res => {
       // Font options.
       const font = "16px sans-serif";
       ctx.font = font;
       ctx.textBaseline = "top";
 
-      predictions.forEach(prediction => {
-        const x = prediction.bbox[0];
-        const y = prediction.bbox[1];
-        const width = prediction.bbox[2];
-        const height = prediction.bbox[3];
+      const [boxes, valid_detections, scores, classes] = res ;
+      var i;
+      for (i = 0; i < valid_detections.dataSync()[0]; ++i){
+        let [x1, y1, x2, y2] = boxes.dataSync().slice(i * 4, (i + 1) * 4);
+        x1 *= c.width;
+        x2 *= c.width;
+        y1 *= c.height;
+        y2 *= c.height;
+        const width = x2 - x1;
+        const height = y2 - y1;
+        const klass = names[classes.dataSync()[i]];
+        const score = scores.dataSync()[i].toFixed(2);
+
         // Draw the bounding box.
         ctx.strokeStyle = "#00FFFF";
         ctx.lineWidth = 4;
-        ctx.strokeRect(x, y, width, height);
+        ctx.strokeRect(x1, y1, width, height);
+
         // Draw the label background.
         ctx.fillStyle = "#00FFFF";
-        const textWidth = ctx.measureText(prediction.class).width;
+        const textWidth = ctx.measureText(klass + ":" + score).width;
         const textHeight = parseInt(font, 10); // base 10
-        ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
-      });
+        ctx.fillRect(x1, y1, textWidth + 4, textHeight + 4);
 
-      predictions.forEach(prediction => {
-        const x = prediction.bbox[0];
-        const y = prediction.bbox[1];
+      }
+      for (i = 0; i < valid_detections.dataSync()[0]; ++i){
+        let [x1, y1, , ] = boxes.dataSync().slice(i * 4, (i + 1) * 4);
+        x1 *= c.width;
+        y1 *= c.height;
+        const klass = names[classes.dataSync()[i]];
+        const score = scores.dataSync()[i].toFixed(2);
+
         // Draw the text last to ensure it's on top.
         ctx.fillStyle = "#000000";
-        ctx.fillText(prediction.class, x, y);
-      });
+        ctx.fillText(klass + ":" + score, x1, y1);
+
+      }
     });
   };
 
@@ -116,7 +137,7 @@ class App extends React.Component {
             ) : (
               "Choose or drop a file."
             )}
-            <canvas id="canvas" />
+            <canvas id="canvas" width="640" height="640" />
           </MagicDropzone>
         ) : (
           <div className="Dropzone">Loading model...</div>

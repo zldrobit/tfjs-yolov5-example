@@ -18,8 +18,8 @@ body {
 .Dropzone-img {
   max-width: calc(100vw - 60px);
   max-height: calc(100vw - 60px);
-  width: 320px;
-  height: 320px;
+  width: 640px;
+  height: 640px;
   border: thin solid rgba(64, 64, 64, 0.15);
   border-radius: 4px;
   object-fit: cover;
@@ -34,8 +34,8 @@ body {
   background: #fcfcfc;
   max-width: calc(100vw - 40px);
   max-height: calc(100vw - 40px);
-  width: 340px;
-  height: 340px;
+  width: 660px;
+  height: 660px;
   padding: 10px;
   border-radius: 5px;
   position: relative;

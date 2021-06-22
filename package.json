@@ -1,12 +1,11 @@
 {
-  "name": "tensorflowjs-object-detection",
+  "name": "tfjs-yolov5-example",
   "version": "1.0.0",
   "description": "",
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
-    "@tensorflow-models/coco-ssd": "0.1.1",
-    "@tensorflow/tfjs": "0.14.0",
+    "@tensorflow/tfjs": "3.7.0",
     "react": "16.5.2",
     "react-dom": "16.5.2",
     "react-magic-dropzone": "1.0.1",
