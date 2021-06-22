@@ -77,7 +77,7 @@ class App extends React.Component {
       ctx.font = font;
       ctx.textBaseline = "top";
 
-      const [boxes, valid_detections, scores, classes] = res ;
+      const [boxes, scores, classes, valid_detections] = res;
       var i;
       for (i = 0; i < valid_detections.dataSync()[0]; ++i){
         let [x1, y1, x2, y2] = boxes.dataSync().slice(i * 4, (i + 1) * 4);
