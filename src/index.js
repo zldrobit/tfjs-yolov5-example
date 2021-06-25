@@ -5,7 +5,7 @@ import MagicDropzone from "react-magic-dropzone";
 import "./styles.css";
 const tf = require('@tensorflow/tfjs');
 
-const weights = '/weights/web_model/model.json';
+const weights = '/web_model/model.json';
 
 const names = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat', 'traffic light',
                'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow',
