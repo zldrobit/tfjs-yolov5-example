@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/tfjs-yolov5-demo/precache-manifest.7f3f4f5b60252fdad915aadf1d10e495.js"
+  "/tfjs-yolov5-example/precache-manifest.3b7ee8bc9e0bab3ebcffcd2b1ce6a88c.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/tfjs-yolov5-demo/index.html", {
+workbox.routing.registerNavigationRoute("/tfjs-yolov5-example/index.html", {
   
   blacklist: [/^\/_/,/\/[^/]+\.[^/]+$/],
 });
