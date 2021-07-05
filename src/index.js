@@ -100,20 +100,12 @@ class App extends React.Component {
         const textWidth = ctx.measureText(klass + ":" + score).width;
         const textHeight = parseInt(font, 10); // base 10
         ctx.fillRect(x1, y1, textWidth + 4, textHeight + 4);
-
-      }
-      for (i = 0; i < valid_detections.dataSync()[0]; ++i){
-        let [x1, y1, , ] = boxes.dataSync().slice(i * 4, (i + 1) * 4);
-        x1 *= c.width;
-        y1 *= c.height;
-        const klass = names[classes.dataSync()[i]];
-        const score = scores.dataSync()[i].toFixed(2);
-
+        
         // Draw the text last to ensure it's on top.
         ctx.fillStyle = "#000000";
         ctx.fillText(klass + ":" + score, x1, y1);
-
       }
+
     });
   };
 
