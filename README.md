@@ -23,7 +23,15 @@ npm start
 ```
 
 ## Github Pages Depolyment
-Edit `deploy` field in `package.json` changing `https://github.com/zldrobit/zldrobit.github.io.git` to `https://github.com/GITHUB_USERNAME/GITHUB_USERNAME.github.io.git`, and make sure you have created a `*.github.io` repo.
+Edit `homepage` field in `package.json` changing 
+```
+"homepage": "https://zldrobit.github.io/tfjs-yolov5-example",
+``` 
+to 
+```
+"homepage": "https://GITHUB_USERNAME.github.io/tfjs-yolov5-example",
+```
+
 
 Run
 ```
@@ -35,6 +43,7 @@ If you change the `--img` value in exporting `*.pb`, change `modelWidth` and `mo
 
 EDIT: 
 - Add github pages deployment support
+- Use GitHub project site (previously use GitHub User Page)
 
 ## Reference
 https://medium.com/hackernoon/tensorflow-js-real-time-object-detection-in-10-lines-of-code-baf15dfb95b2
