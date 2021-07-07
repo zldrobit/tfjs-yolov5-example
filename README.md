@@ -1,9 +1,12 @@
 # tfjs-yolov5-example
 
+## Demo
+A YOLOv5 tfjs demo is on https://zldrobit.github.io/tfjs-yolov5-example/. You could drag a file to the center box to detect objects with a pretrained COCO model.
+
 ## Usage
 Export TensorFlow.js model as described in https://github.com/ultralytics/yolov5/pull/1127
 
-## Local Test
+### Local Test
 After exported the tfjs model, clone this repo:
 ```
 git clone https://github.com/zldrobit/tfjs-yolov5-example.git
@@ -22,7 +25,7 @@ Run YOLOv5 detection web service with:
 npm start
 ```
 
-## Github Pages Depolyment
+### Github Pages Depolyment
 Edit `homepage` field in `package.json` changing 
 ```
 "homepage": "https://zldrobit.github.io/tfjs-yolov5-example",
