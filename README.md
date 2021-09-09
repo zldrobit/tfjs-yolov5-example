@@ -26,13 +26,21 @@ npm start
 ```
 
 ### Github Pages Depolyment
-Edit `homepage` field in `package.json` changing 
+Edit the `homepage` and `deploy` fields in `package.json` changing 
 ```
 "homepage": "https://zldrobit.github.io/tfjs-yolov5-example",
 ``` 
 to 
 ```
 "homepage": "https://GITHUB_USERNAME.github.io/tfjs-yolov5-example",
+```
+and
+```
+"deploy": "gh-pages -d build --repo git@github.com:zldrobit/tfjs-yolov5-example.git"
+```
+to
+```
+"deploy": "gh-pages -d build --repo git@github.com:GITHUB_USERNAME/tfjs-yolov5-example.git"
 ```
 
 
