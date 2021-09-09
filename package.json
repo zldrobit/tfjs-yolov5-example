@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "homepage": "https://zldrobit.github.io/tfjs-yolov5-example",
   "dependencies": {
-    "@tensorflow/tfjs": "3.7.0",
+    "@tensorflow/tfjs": "3.9.0",
     "gh-pages": "^3.2.3",
     "react": "16.5.2",
     "react-dom": "16.5.2",
