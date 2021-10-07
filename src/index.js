@@ -69,8 +69,10 @@ class App extends React.Component {
     const c = document.getElementById("canvas");
     const ctx = c.getContext("2d");
     this.cropToCanvas(e.target, c, ctx);
-    const input = tf.image.resizeBilinear(tf.browser.fromPixels(c), [modelWeight, modelHeight])
-      .div(255.0).expandDims(0);
+    const input = tf.tidy(() => {
+      return tf.image.resizeBilinear(tf.browser.fromPixels(c), [modelWeight, modelHeight])
+        .div(255.0).expandDims(0);
+    });
     this.state.model.executeAsync(input).then(res => {
       // Font options.
       const font = "16px sans-serif";
@@ -78,17 +80,24 @@ class App extends React.Component {
       ctx.textBaseline = "top";
 
       const [boxes, scores, classes, valid_detections] = res;
+      const boxes_data = boxes.dataSync();
+      const scores_data = scores.dataSync();
+      const classes = classes.dataSync();
+      const valid_detections_data = valid_detections.dataSync()[0];
+
+      tf.dispose(res)
+
       var i;
-      for (i = 0; i < valid_detections.dataSync()[0]; ++i){
-        let [x1, y1, x2, y2] = boxes.dataSync().slice(i * 4, (i + 1) * 4);
+      for (i = 0; i < valid_detections_data; ++i){
+        let [x1, y1, x2, y2] = boxes_data.slice(i * 4, (i + 1) * 4);
         x1 *= c.width;
         x2 *= c.width;
         y1 *= c.height;
         y2 *= c.height;
         const width = x2 - x1;
         const height = y2 - y1;
-        const klass = names[classes.dataSync()[i]];
-        const score = scores.dataSync()[i].toFixed(2);
+        const klass = names[classes[i]];
+        const score = scores_data[i].toFixed(2);
 
         // Draw the bounding box.
         ctx.strokeStyle = "#00FFFF";
@@ -102,12 +111,12 @@ class App extends React.Component {
         ctx.fillRect(x1, y1, textWidth + 4, textHeight + 4);
 
       }
-      for (i = 0; i < valid_detections.dataSync()[0]; ++i){
-        let [x1, y1, , ] = boxes.dataSync().slice(i * 4, (i + 1) * 4);
+      for (i = 0; i < valid_detections_data; ++i){
+        let [x1, y1, , ] = boxes_data.slice(i * 4, (i + 1) * 4);
         x1 *= c.width;
         y1 *= c.height;
-        const klass = names[classes.dataSync()[i]];
-        const score = scores.dataSync()[i].toFixed(2);
+        const klass = names[classes[i]];
+        const score = scores_data[i].toFixed(2);
 
         // Draw the text last to ensure it's on top.
         ctx.fillStyle = "#000000";
