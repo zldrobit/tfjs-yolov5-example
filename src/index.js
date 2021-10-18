@@ -17,7 +17,7 @@ const names = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'tra
                'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear',
                'hair drier', 'toothbrush']
 
-const [modelWeight, modelHeight] = [320, 320];
+const [modelWeight, modelHeight] = [640, 640];
 
 class App extends React.Component {
   state = {
