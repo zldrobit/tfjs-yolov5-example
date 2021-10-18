@@ -82,7 +82,7 @@ class App extends React.Component {
       const [boxes, scores, classes, valid_detections] = res;
       const boxes_data = boxes.dataSync();
       const scores_data = scores.dataSync();
-      const classes = classes.dataSync();
+      const classes_data = classes.dataSync();
       const valid_detections_data = valid_detections.dataSync()[0];
 
       tf.dispose(res)
@@ -96,7 +96,7 @@ class App extends React.Component {
         y2 *= c.height;
         const width = x2 - x1;
         const height = y2 - y1;
-        const klass = names[classes[i]];
+        const klass = names[classes_data[i]];
         const score = scores_data[i].toFixed(2);
 
         // Draw the bounding box.
@@ -115,7 +115,7 @@ class App extends React.Component {
         let [x1, y1, , ] = boxes_data.slice(i * 4, (i + 1) * 4);
         x1 *= c.width;
         y1 *= c.height;
-        const klass = names[classes[i]];
+        const klass = names[classes_data[i]];
         const score = scores_data[i].toFixed(2);
 
         // Draw the text last to ensure it's on top.
