@@ -4,7 +4,13 @@
 A YOLOv5 tfjs demo is on https://zldrobit.github.io/tfjs-yolov5-example/. You could drag a file to the center box to detect objects with a pretrained COCO model.
 
 ## Usage
-Export TensorFlow.js model as described in https://github.com/ultralytics/yolov5/pull/1127
+<del>Export TensorFlow.js model as described in https://github.com/ultralytics/yolov5/pull/1127</del>
+
+After [the release of YOLOv5 v6](https://github.com/ultralytics/yolov5/releases/tag/v6.0), users could export tfjs models with its main branch:
+```
+git clone https://github.com/ultralytics/yolov5.git
+python export.py --weights yolov5s.pt --include tfjs
+```
 
 ### Local Test
 After exported the tfjs model, clone this repo:
@@ -18,7 +24,7 @@ npm install
 ```
 Link YOLOv5 weights directory into public directory:
 ```
-ln -s ../../yolov5/weights/web_model public/web_model
+ln -s ../../yolov5/yolov5s_web_model public/web_model
 ```
 Run YOLOv5 detection web service with:
 ```
