@@ -55,7 +55,7 @@ Run
 npm run deploy
 ```
 
-PS: This repo assumes the model input resolution is 320x320.
+PS: This repo assumes the model input resolution is 640x640.
 If you change the `--img` value in exporting `*.pb`, change `modelWidth` and `modelHeight` in `src/index.js` accordingly.
 
 EDIT: 
