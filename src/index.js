@@ -17,8 +17,6 @@ const names = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'tra
                'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear',
                'hair drier', 'toothbrush']
 
-const [modelWeight, modelHeight] = [640, 640];
-
 class App extends React.Component {
   state = {
     model: null,
@@ -69,8 +67,9 @@ class App extends React.Component {
     const c = document.getElementById("canvas");
     const ctx = c.getContext("2d");
     this.cropToCanvas(e.target, c, ctx);
+    let [modelWidth, modelHeight] = this.state.model.inputs[0].shape.slice(1, 3);
     const input = tf.tidy(() => {
-      return tf.image.resizeBilinear(tf.browser.fromPixels(c), [modelWeight, modelHeight])
+      return tf.image.resizeBilinear(tf.browser.fromPixels(c), [modelWidth, modelHeight])
         .div(255.0).expandDims(0);
     });
     this.state.model.executeAsync(input).then(res => {
