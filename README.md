@@ -62,5 +62,8 @@ EDIT:
 - Add github pages deployment support
 - Use GitHub project site (previously use GitHub User Page)
 
+## FAQ
+https://github.com/zldrobit/tfjs-yolov5-example/wiki/FAQ
+
 ## Reference
 https://medium.com/hackernoon/tensorflow-js-real-time-object-detection-in-10-lines-of-code-baf15dfb95b2
