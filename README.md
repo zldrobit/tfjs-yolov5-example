@@ -65,5 +65,8 @@ EDIT:
 ## FAQ
 https://github.com/zldrobit/tfjs-yolov5-example/wiki/FAQ
 
+## Other resource
+Add yolov5 in the web using yolov5js: https://github.com/SkalskiP/yolov5js
+
 ## Reference
 https://medium.com/hackernoon/tensorflow-js-real-time-object-detection-in-10-lines-of-code-baf15dfb95b2
