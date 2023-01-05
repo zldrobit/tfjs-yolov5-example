@@ -26,6 +26,12 @@ Link YOLOv5 weights directory into public directory:
 ```
 ln -s ../../yolov5/yolov5s_web_model public/web_model
 ```
+
+If the synlink is not working (For example on Ubuntu), you might have to use an absolute path:
+```
+ln -s <ABSOLUTE PATH>/yolov5/yolov5s_web_model <ABSOLUTE PATH>/public/web_model
+```
+
 Run YOLOv5 detection web service with:
 ```
 npm start
